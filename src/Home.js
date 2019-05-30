@@ -17,8 +17,8 @@ export default class Home extends Component {
         let tarefaId = tarefa.id
         let currentUser = firebase.auth().currentUser
         firebase.database()
-        .ref(`/users/${currentUser.uid}/tasks/${tarefaId}`)
-        .remove()
+            .ref(`/users/${currentUser.uid}/tasks/${tarefaId}`)
+            .remove()
     }
 
     newTask() {
@@ -31,11 +31,11 @@ export default class Home extends Component {
     }
     updateTask(tarefa) {
         let tarefaId = tarefa.id
-        let newTarefa = { tarefa: tarefa.tarefaTitulo, realizado: true }
+        let newTarefa = { tarefa: tarefa.nome, realizado: true }
         let currentUser = firebase.auth().currentUser
         firebase.database()
-        .ref(`/users/${currentUser.uid}/tasks/${tarefaId}`)
-        .set(newTarefa)
+            .ref(`/users/${currentUser.uid}/tasks/${tarefaId}`)
+            .set(newTarefa)
     }
     readTasks() {
         let currentUser = firebase.auth().currentUser;
@@ -46,14 +46,14 @@ export default class Home extends Component {
 
                 let tarefas = []
                 for (tarefa in data) {
-                    const idTarefa = tarefa
-                    const tarefaTitulo = data[tarefa].tarefa
-                    const tarefaStatus = data[tarefa].realizado
+                    const id = tarefa
+                    const nome = data[tarefa].tarefa
+                    const status = data[tarefa].realizado
 
                     tarefas.push({
-                        id: idTarefa,
-                        tarefaTitulo,
-                        tarefaStatus
+                        id,
+                        nome,
+                        status
                     })
                 }
                 this.setState({
@@ -70,21 +70,21 @@ export default class Home extends Component {
             <View>
                 <View>
                     <Text >
-                        tarefa: {tarefa.tarefaTitulo}
+                        tarefa: {tarefa.nome}
                     </Text>
                 </View>
                 <View>
                     <Text>
-                        Status: {tarefa.tarefaStatus === false? "A fazer": "Realizado" }
+                        Status: {tarefa.status === false ? "A fazer" : "Realizada"}
                     </Text>
                     <Button
-                        title={"V"}
+                        title={"Marcar como realizada"}
                         color='rgb(0, 170, 0)'
                         onPress={() => {
                             this.updateTask(tarefa)
                         }} />
                     <Button
-                        title={"X"}
+                        title={"Deletar tarefa"}
                         color='rgb(255, 0, 0)'
                         onPress={() => {
                             this.deletTask(tarefa)
@@ -113,9 +113,9 @@ export default class Home extends Component {
                 <Button
                     title="Adicionar Tarefa"
                     onPress={() => {
-                        if (this.state.tarefa !== ""){
+                        if (this.state.tarefa !== "") {
                             this.newTask()
-                        }else{
+                        } else {
                             alert("preencha os campos ")
                         }
                     }}
@@ -127,50 +127,3 @@ export default class Home extends Component {
         )
     }
 }
-
-
-const styles = StyleSheet.create({
-    container: {
-        width: '100%',
-        height: '100%'
-    },
-    circleShapeView: {
-        width: 70,
-        height: 70,
-        borderRadius: 150 / 2,
-        backgroundColor: '#00BCD4',
-    },
-    button: {
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        margin: 15
-    },
-    tarefas: {
-        display: "flex",
-        flexDirection: "row",
-        marginTop: 5,
-        margin: 10,
-        flex: 1
-    },
-    conteinerCheck: {
-        display: "flex",
-        flexDirection: "row",
-        flex: 1,
-        justifyContent: "center",
-    },
-    conteinerTitulo: {
-        textAlign: "left",
-        display: "flex",
-        flexDirection: "row",
-        flex: 3,
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    semTarefa: {
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        marginTop: 20
-    }
-});
