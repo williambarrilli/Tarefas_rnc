@@ -1,0 +1,10 @@
+{
+  "devToolsPort": 19002,
+  "expoServerPort": 19000,
+  "packagerPort": 19001,
+  "packagerPid": 6956,
+  "expoServerNgrokUrl": "https://r4-uqk.anonymous.tarefas.exp.direct",
+  "packagerNgrokUrl": "https://packager.r4-uqk.anonymous.tarefas.exp.direct",
+  "ngrokPid": 7035,
+  "webpackServerPort": null
+}
