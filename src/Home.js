@@ -74,9 +74,12 @@ export default class Home extends Component {
                     </Text>
                 </View>
                 <View>
-                    <Text>
-                        Status: {tarefa.status === false ? "A fazer" : "Realizada"}
-                    </Text>
+                    <View>
+                        <Text
+                            style={{ color: `${tarefa.status ? 'rgb(0, 170, 0)' : 'rgb(255, 0, 0)'}` }}>
+                            Status: {tarefa.status === false ? "A fazer" : "Realizada"}
+                        </Text>
+                    </View>
                     <Button
                         title={"Marcar como realizada"}
                         color='rgb(0, 170, 0)'

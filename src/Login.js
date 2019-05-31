@@ -23,6 +23,9 @@ export default class Login extends Component {
         };
         firebase.initializeApp(config);
     };
+    erro(err) {
+        alert(err)
+    }
     validateLogin() {
         firebase.auth()
             .signInWithEmailAndPassword(this.state.email.trim(), this.state.senha)
@@ -30,23 +33,27 @@ export default class Login extends Component {
                 this.props.navigation.navigate('Home')
             })
             .catch(erro => {
-                console.log(erro)
+                this.erro(erro)
             })
     };
+
+    createNewUser() {
+        this.props.navigation.navigate('Cadastro')
+    }
     render() {
         return (
             <View>
                 <Text> LOGIN FIREBASE </Text>
                 <TextInput
                     value={this.state.email}
-                    onChange={email => {
+                    onChangeText={email => {
                         this.setState({ email })
                     }}
                     placeholder={"digite o email"}
                 />
                 <TextInput
                     value={this.state.senha}
-                    onChange={senha => {
+                    onChangeText={senha => {
                         this.setState({ senha })
                     }}
                     placeholder={"digite a senha"}
@@ -55,8 +62,12 @@ export default class Login extends Component {
                     title="Login"
                     onPress={() => {
                         this.validateLogin()
-                    }}
-                />
+                    }} />
+                <Button
+                    title="Cadastrar"
+                    onPress={() => {
+                        this.createNewUser()
+                    }} />
                 <CheckBox
                     title='Salvar email'
                     checked={this.state.checked}
