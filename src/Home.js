@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import { View, TextInput, StyleSheet, Button, ScrollView, TouchableOpacity, Text } from 'react-native'
-import { ListItem, CheckBox } from 'react-native-elements';
+import { View, TextInput, StyleSheet, Button, ScrollView, Text } from 'react-native'
 import firebase from 'firebase'
 
 
@@ -69,19 +68,19 @@ export default class Home extends Component {
         return tarefas.map(tarefa => (
             <View>
                 <View>
-                    <Text >
+                    <Text style={styles.text} >
                         tarefa: {tarefa.nome}
                     </Text>
                 </View>
                 <View>
                     <View>
-                        <Text
+                        <Text style={styles.text}
                             style={{ color: `${tarefa.status ? 'rgb(0, 170, 0)' : 'rgb(255, 0, 0)'}` }}>
                             Status: {tarefa.status === false ? "A fazer" : "Realizada"}
                         </Text>
                     </View>
                     <View style={{ flexDirection: "row" }}>
-                        <Button
+                        <Button style={styles.text}
                             title={"Realizar"}
                             color='rgb(0, 170, 0)'
                             onPress={() => {
@@ -133,3 +132,20 @@ export default class Home extends Component {
         )
     }
 }
+const styles = StyleSheet.create({
+    container: {
+        width: '100%',
+        height: '100%',
+    },
+    input: {
+        margin: 20,
+        marginTop: 15,
+        marginVertical: 5,
+        borderWidth: 0.5
+    },
+    text: {
+        margin: 20,
+        marginTop: 15,
+        marginVertical: 5,
+    }
+});

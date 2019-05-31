@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { Text, View, TextInput } from 'react-native'
-import { Button, CheckBox } from 'react-native-elements';
+import { Text, View, TextInput, CheckBox, StyleSheet } from 'react-native'
+import { Button } from 'react-native-elements';
+import { AsyncStorage } from 'react-native';
 
 import firebase from 'firebase'
 
@@ -9,8 +10,10 @@ export default class Login extends Component {
     constructor() {
         super()
         this.state = {
-            email: "felip.ew@hotmail.com",
-            senha: "12345678"
+            email: "",
+            senha: "",
+            check: false,
+            checkLog: false,
         };
         const config = {
             apiKey: "AIzaSyDnubM1S21GtFmvbR5f2PQnnddglL17jIM",
@@ -26,6 +29,52 @@ export default class Login extends Component {
     erro(err) {
         alert(err)
     }
+
+    async componentDidMount() {
+        let email = await AsyncStorage.getItem("email")
+        if (email != null) {
+            this.setState({
+                email
+            })
+        }
+    }
+
+    armazenaStorage(key, value) {
+        AsyncStorage.setItem(key, value)
+    }
+
+    checkBoxChange() {
+        this.setState({
+            check: !this.state.check
+        })
+        this.armazenaStorage('email', this.state.email)
+    }
+
+    checkBoxChangeLog() {
+        if (this.state.senha.length !== 0) {
+            console.log("entro ali")
+            this.setState({
+                checkLog: !this.state.checkLog
+            })
+            this.armazenaStorage('email', this.state.email)
+            this.armazenaStorage('senha', this.state.senha)
+
+        } else {
+            console.log(this.state.email)
+            console.log(this.state.senha)            
+            this.setState({
+                checkLog: false
+            })
+            alert("Preencha os todos os campos!")
+        }
+    }
+    autoLogin() {
+        if (this.state.senha) {
+            console.log("chamo o valid")
+
+            this.validateLogin()
+        }
+    }
     validateLogin() {
         firebase.auth()
             .signInWithEmailAndPassword(this.state.email.trim(), this.state.senha)
@@ -40,44 +89,75 @@ export default class Login extends Component {
     createNewUser() {
         this.props.navigation.navigate('Cadastro')
     }
+    componentWillMount() {
+        this.autoLogin()
+
+    }
     render() {
         return (
             <View>
-                <Text> LOGIN FIREBASE </Text>
-                <TextInput
+                <Text style={styles.text}> LOGIN FIREBASE </Text>
+                <TextInput style={styles.input}
                     value={this.state.email}
                     onChangeText={email => {
                         this.setState({ email })
                     }}
                     placeholder={"digite o email"}
                 />
-                <TextInput
+                <TextInput style={styles.input}
                     value={this.state.senha}
                     onChangeText={senha => {
                         this.setState({ senha })
                     }}
-                    placeholder={"digite a senha"}
-                />
-                <Button
-                    title="Login"
-                    onPress={() => {
-                        this.validateLogin()
-                    }} />
-                <Button
-                    title="Cadastrar"
-                    onPress={() => {
-                        this.createNewUser()
-                    }} />
-                <CheckBox
-                    title='Salvar email'
-                    checked={this.state.checked}
-                />
-                <CheckBox
-                    title='Manter-me conectado'
-                    checked={this.state.checked}
-                />
 
+                />
+                <View style={styles.button}>
+                    <CheckBox
+                        value={this.state.check}
+                        onChange={() => this.checkBoxChange()}
+                    /><Text>Lembrar-me</Text>
+                    <CheckBox
+                        value={this.state.checkLog}
+                        onChange={() => this.checkBoxChangeLog()}
+                    /><Text>Manter-me conectado</Text>
+                </View>
+                <View
+                    style={styles.button}>
+                    <Button
+                        title="Login"
+                        onPress={() => {
+                            this.validateLogin()
+                        }} />
+                    <Button
+                        title="Cadastrar"
+                        onPress={() => {
+                            this.createNewUser()
+                        }} />
+                </View>
             </View>
         )
     }
 }
+const styles = StyleSheet.create({
+    container: {
+        width: '100%',
+        height: '100%',
+    },
+    input: {
+        margin: 20,
+        marginTop: 15,
+        marginVertical: 5,
+        borderWidth: 0.5
+    },
+    button: {
+        margin: 20,
+        marginTop: 15,
+        marginVertical: 5,
+        flexDirection: "row"
+    },
+    text: {
+        margin: 20,
+        marginTop: 15,
+        marginVertical: 5,
+    }
+});
