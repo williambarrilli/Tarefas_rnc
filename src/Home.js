@@ -80,18 +80,20 @@ export default class Home extends Component {
                             Status: {tarefa.status === false ? "A fazer" : "Realizada"}
                         </Text>
                     </View>
-                    <Button
-                        title={"Marcar como realizada"}
-                        color='rgb(0, 170, 0)'
-                        onPress={() => {
-                            this.updateTask(tarefa)
-                        }} />
-                    <Button
-                        title={"Deletar tarefa"}
-                        color='rgb(255, 0, 0)'
-                        onPress={() => {
-                            this.deletTask(tarefa)
-                        }} />
+                    <View style={{ flexDirection: "row" }}>
+                        <Button
+                            title={"Realizar"}
+                            color='rgb(0, 170, 0)'
+                            onPress={() => {
+                                this.updateTask(tarefa)
+                            }} />
+                        <Button
+                            title={"Deletar"}
+                            color='rgb(255, 0, 0)'
+                            onPress={() => {
+                                this.deletTask(tarefa)
+                            }} />
+                    </View>
                 </View>
             </View>
         ))
@@ -124,6 +126,7 @@ export default class Home extends Component {
                     }}
                 />
                 <ScrollView>
+
                     {tarefasRow}
                 </ScrollView>
             </View>

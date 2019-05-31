@@ -32,11 +32,11 @@ export default class Cadastro extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text style={styles.texto}>  Criar Cadastro </Text>
+                <Text style={styles.text}>  Criar Cadastro </Text>
                 <TextInput
                     style={styles.input}
                     value={this.state.email}
-                    onChange={email => {
+                    onChangeText={email => {
                         this.setState({ email })
                     }}
                     placeholder={"digite o email"}
@@ -44,7 +44,7 @@ export default class Cadastro extends Component {
                 <TextInput
                     style={styles.input}
                     value={this.state.senha}
-                    onChange={senha => {
+                    onChangeText={senha => {
                         this.setState({ senha })
                     }}
                     placeholder={"digite a senha"}
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
         marginVertical: 5,
         borderWidth: 0.5
     },
-    texto: {
+    text: {
         margin: 20,
         marginTop: 15,
         marginVertical: 5,
